@@ -1,0 +1,5 @@
+all: compilate run
+compilate:
+	gcc -Wall -Werror -o chessviz chessviz.c
+run:
+	./chessviz
