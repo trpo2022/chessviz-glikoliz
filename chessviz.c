@@ -1,7 +1,8 @@
 #include <stdio.h>
+#define board_size 8
 int main()
 {
-    char doska[8][8]
+    char board[board_size][board_size]
             = {{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
                {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -10,10 +11,10 @@ int main()
                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
                {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}};
-    for (int i = 0; i < 8; i++) {
-        printf("%d ", 8 - i);
-        for (int j = 0; j < 8; j++) {
-            printf("%c ", doska[i][j]);
+    for (int i = 0; i < board_size; i++) {
+        printf("%d ", board_size - i);
+        for (int j = 0; j < board_size; j++) {
+            printf("%c ", board[i][j]);
         }
         printf("\n");
     }
