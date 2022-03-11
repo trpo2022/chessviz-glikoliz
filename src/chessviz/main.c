@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include "board_read.h"
+#include "print_board_stdout.h"
 #define board_size 8
-int main()
+int main(int argc, char **argv)
 {
     char board[board_size][board_size]
             = {{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
@@ -11,14 +13,7 @@ int main()
                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
                {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}};
-    for (int i = 0; i < board_size; i++) {
-        printf("%d ", board_size - i);
-        for (int j = 0; j < board_size; j++) {
-            printf("%c ", board[i][j]);
-        }
-        printf("\n");
-    }
-    printf("  a b c d e f g j\n");
-
+    print(*board);
+    board_read(argc, argv);
     return 0;
 }
