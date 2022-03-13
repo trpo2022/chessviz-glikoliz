@@ -1,2 +1,2 @@
 #pragma once
-void board_read();
+char** board_read(int argc, char** argv, int count);
