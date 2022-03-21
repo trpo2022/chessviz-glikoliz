@@ -9,16 +9,9 @@ char** board_read(int argc, char** argv, int count)
     int j = 0;
     char** s = (char**)malloc(sizeof(char*));
     if (argc == 1) { // read from stdin
-        for (int i = 0; i <= count; i++) {
-            s[size] = (char*)malloc(sizeof(char) * 256);
-            fgets(s[size], 256, stdin);
-            size++;
-            s = (char**)realloc(s, sizeof(char*) * (size + 1));
-        }
-        for (int n = 0; n < size - 1; n++) {
-            s[n] = s[n + 1];
-        }
-        --size;
+        printf("%d. ", count);
+        s[size]=(char*)malloc(sizeof(char) * 256);
+        fgets(s[size],256,stdin);
     } else { // read from file
         FILE* fp = fopen(argv[1], "r");
         while (!feof(fp)) {
