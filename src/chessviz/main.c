@@ -2,6 +2,7 @@
 #include "print_board_stdout.h"
 #include <libchessviz/move.h>
 #include <stdio.h>
+#include <string.h>
 #define board_size 8
 int main(int argc, char** argv)
 {
@@ -15,10 +16,15 @@ int main(int argc, char** argv)
                {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
                {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}};
     int count = 1;
+    char** s;
     print(*board);
     if (argc == 1) {
-        printf("Введите количество ходов: ");
-        scanf("%d", &count);
+        printf("Для выхода напишите quit.\n");
+        while(strcmp((s=board_read(argc,argv,1))[0],"quit\n")!=0)
+        {   
+            ok(s, 1, *board);
+            count++;
+        }
     } else {
         FILE* fp = fopen(argv[1], "r");
         while (!feof(fp)) {
@@ -27,7 +33,7 @@ int main(int argc, char** argv)
         }
         --count;
         fclose(fp);
+        ok(board_read(argc, argv, count), count, *board);
     }
-    ok(board_read(argc, argv, count), count, *board);
     return 0;
 }
