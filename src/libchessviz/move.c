@@ -1,5 +1,5 @@
-#include <chessviz/print_board_stdout.h>
 #include <ctype.h>
+#include <libchessviz/print_board_stdout.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define board_size 8
