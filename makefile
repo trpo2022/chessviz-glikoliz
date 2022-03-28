@@ -7,7 +7,7 @@ all: board_read print_board_stdout move main chessviz
 board_read:
 	$(CC) $(INCLUDEPATH) $(SOURCE)board_read.c
 print_board_stdout:
-	$(CC) $(INCLUDEPATH) $(SOURCE)print_board_stdout.c
+	$(CC) $(INCLUDEPATH) $(LIBSOURCE)print_board_stdout.c
 move:
 	$(CC) $(INCLUDEPATH) $(LIBSOURCE)move.c
 main:

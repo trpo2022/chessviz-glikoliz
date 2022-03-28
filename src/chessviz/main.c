@@ -1,5 +1,5 @@
 #include "board_read.h"
-#include "print_board_stdout.h"
+#include <libchessviz/print_board_stdout.h>
 #include <libchessviz/move.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     print(*board);
     if (argc == 1) {
         printf("Для выхода напишите quit.\n");
-        while(strcmp((s=board_read(argc,argv,1))[0],"quit\n")!=0)
+        while(strcmp((s=board_read(argc,argv,count))[0],"quit\n")!=0)
         {   
             ok(s, 1, *board);
             count++;
