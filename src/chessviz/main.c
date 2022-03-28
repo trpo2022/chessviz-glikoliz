@@ -1,5 +1,5 @@
 #include "board_read.h"
-#include "print_board_stdout.h"
+#include <libchessviz/print_board_stdout.h>
 #include <libchessviz/move.h>
 #include <stdio.h>
 #include <string.h>
