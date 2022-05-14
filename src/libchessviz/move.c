@@ -211,7 +211,8 @@ void move_bishop(board_info)
                         }
                     }
                     yy++;
-                
+                }
+            }
             }
         }
         // yy=y1;
