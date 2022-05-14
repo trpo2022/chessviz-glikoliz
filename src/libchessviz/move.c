@@ -115,7 +115,7 @@ void move_king(
 }
 void ok(char** s, int count, char board[board_size][board_size])
 {
-    int j = 0, check = 0;
+    int j = 0;
     char figure;
     for (int i = 0; i < count; i++) {
         while (s[i][j] != '\n') {
@@ -135,14 +135,14 @@ void ok(char** s, int count, char board[board_size][board_size])
                 // board[m.smy][m.smx]);
                 if (figure == ' ')
                     move_pawn(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
-                if(figure=='K')
+                if(figure=='K'&& figure==board[m.fmy][m.fmx])
                     move_king(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
                 j = j + 3;
             }
             j++;
         }
         printf("\n");
-        check = 0;
+        // check = 0;
         j = 0;
     }
 }
