@@ -1,6 +1,6 @@
 #include "board_read.h"
-#include <libchessviz/print_board_stdout.h>
 #include <libchessviz/move.h>
+#include <libchessviz/print_board_stdout.h>
 #include <stdio.h>
 #include <string.h>
 #define board_size 8
@@ -20,8 +20,7 @@ int main(int argc, char** argv)
     print(*board);
     if (argc == 1) {
         printf("Для выхода напишите quit.\n");
-        while(strcmp((s=board_read(argc,argv,count))[0],"quit\n")!=0)
-        {   
+        while (strcmp((s = board_read(argc, argv, count))[0], "quit\n") != 0) {
             ok(s, 1, *board);
             count++;
         }

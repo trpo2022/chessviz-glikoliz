@@ -10,8 +10,8 @@ char** board_read(int argc, char** argv, int count)
     char** s = (char**)malloc(sizeof(char*));
     if (argc == 1) { // read from stdin
         printf("%d. ", count);
-        s[size]=(char*)malloc(sizeof(char) * 256);
-        fgets(s[size],256,stdin);
+        s[size] = (char*)malloc(sizeof(char) * 256);
+        fgets(s[size], 256, stdin);
     } else { // read from file
         FILE* fp = fopen(argv[1], "r");
         while (!feof(fp)) {

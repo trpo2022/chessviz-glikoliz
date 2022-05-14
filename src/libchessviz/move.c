@@ -149,7 +149,7 @@ void move_knight(board_info)
                 move_figure;
         }
     }
-    
+
     print(*board);
 }
 void move_bishop(board_info)
@@ -162,10 +162,9 @@ void move_bishop(board_info)
             if (y1 > y2) {
                 for (int i = x1; i <= x2; i++) {
                     if (board[yy][i] != ' ') {
-                        if(i==x2 && action=='x')
+                        if (i == x2 && action == 'x')
                             move_figure;
-                        if(i!=x1)
-                        {
+                        if (i != x1) {
                             ok = 1;
                             break;
                         }
@@ -175,10 +174,9 @@ void move_bishop(board_info)
             } else {
                 for (int i = x1; i <= x2; i++) {
                     if (board[yy][i] != ' ') {
-                        if(i==x2 && action=='x')
+                        if (i == x2 && action == 'x')
                             move_figure;
-                        if(i!=x1)
-                        {
+                        if (i != x1) {
                             ok = 1;
                             break;
                         }
@@ -190,10 +188,9 @@ void move_bishop(board_info)
             if (y1 > y2) {
                 for (int i = x1; i <= x2; i--) {
                     if (board[yy][i] != ' ') {
-                        if(i==x2 && action=='x')
+                        if (i == x2 && action == 'x')
                             move_figure;
-                        if(i!=x1)
-                        {
+                        if (i != x1) {
                             ok = 1;
                             break;
                         }
@@ -203,10 +200,9 @@ void move_bishop(board_info)
             } else {
                 for (int i = x1; i <= x2; i--) {
                     if (board[yy][i] != ' ') {
-                        if(i==x2 && action=='x')
+                        if (i == x2 && action == 'x')
                             move_figure;
-                        if(i!=x1)
-                        {
+                        if (i != x1) {
                             ok = 1;
                             break;
                         }
