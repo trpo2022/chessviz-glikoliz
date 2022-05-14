@@ -3,6 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define board_size 8
+#define info m.fmx, m.fmy, m.smx, m.smy, board, m.act
+#define board_info                                                      \
+    int x1, int y1, int x2, int y2, char board[board_size][board_size], \
+            char action
+#define min(x1, x2) ((x1 < x2) ? x1 : x2)
+#define max(x1, x2) ((x1 > x2) ? x1 : x2)
+#define move_input x1,y1,x2,y2,board
+#define move_figure move_figures(x1,y1,x2,y2,board)
 int char_to_int(char letter)
 {
     switch (letter) {
@@ -36,80 +44,112 @@ char turn(int x, int y, char board[board_size][board_size])
 struct move_info {
     int fmx;  // first-move-x
     int fmy;  // first-move-y
-    int smx;  // sec-move-x
-    int smy;  // sec-move-y
+    int smx;  // second-move-x
+    int smy;  // second-move-y
     char act; // action
 } m;
-void quiet_move(
-        int x1, int y1, int x2, int y2, char board[board_size][board_size])
-{
-    char temp = board[y1][x1];
-    board[y1][x1] = board[y2][x2];
-    board[y2][x2] = temp;
-}
-void take_figure_move(
+void move_figures(
         int x1, int y1, int x2, int y2, char board[board_size][board_size])
 {
     board[y2][x2] = board[y1][x1];
     board[y1][x1] = ' ';
 }
-void move_pawn(
-        int x1,
-        int y1,
-        int x2,
-        int y2,
-        char board[board_size][board_size],
-        char action)
+void move_pawn(board_info)
 {
     char turn1 = turn(x1, y1, board);
     char turn2 = turn(x2, y2, board);
-    if (x1 == x2 && action == '-') {
+    if (x1 == x2 && action == '-') { //Тихий ход
         if (board[y2][x2] == ' ') {
             if (abs(y2 - y1) == 1) {
                 if (y2 < y1 && turn1 == 'w') // white
-                    quiet_move(x1, y1, x2, y2, board);
+                    move_figure;
                 if (y2 > y1 && turn1 == 'b') // black
-                    quiet_move(x1, y1, x2, y2, board);
+                    move_figure;
             }
             if (abs(y1 - y2) == 2) {
                 if (y1 == 6 && turn1 == 'w'
                     && board[y2 + 1][x2] == ' ') // white
-                    quiet_move(x1, y1, x2, y2, board);
+                    move_figure;
                 if (y1 == 1 && turn1 == 'b'
                     && board[y2 - 1][x2] == ' ') // black
-                    quiet_move(x1, y1, x2, y2, board);
+                    move_figure;
             }
         }
     }
-    if (abs(x1 - x2) == 1 && abs(y1 - y2) == 1 && action == 'x')
+    if (abs(x1 - x2) == 1 && abs(y1 - y2) == 1
+        && action == 'x') //Взятие другой фигуры
         if (turn1 != turn2) {
             if (y2 > y1 && turn1 == 'b')
-                take_figure_move(x1, y1, x2, y2, board);
+                move_figure;
             if (y2 < y1 && turn1 == 'w')
-                take_figure_move(x1, y1, x2, y2, board);
+                move_figure;
         }
     print(*board);
 }
-void move_king(
-        int x1,
-        int y1,
-        int x2,
-        int y2,
-        char board[board_size][board_size],
-        char action)
+void move_king(board_info)
 {
-    char turn1 = turn(x1, y1, board);
-    char turn2 = turn(x2, y2, board);
-    if(action=='-' && board[y2][x2]==' ')
+    if (turn(x1, y1, board) != turn(x2, y2, board))
     {
-        if(abs(x1-x2)<=1 && abs(y1-y2)<=1)
-        {
-            quiet_move(x1, y1, x2, y2, board);
+    if (action == '-' && board[y2][x2] == ' ') {
+        if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {
+            move_figure;
         }
     }
-    if(action=='x' && board[y2][x2]!=' ' && turn1!=turn2)
+    if (action == 'x' && board[y2][x2] != ' ') {
+        move_figure;
+    }
+    }
+    print(*board);
+}
+void move_rook(board_info)
+{
+    int ok = 0;
+    if (turn(x1, y1, board) != turn(x2, y2, board)) { //проверяет не ест ли своего
+        if (y1 == y2) {
+            for (int i = min(x1, x2); i <= max(x1, x2); i++) {
+                if (board[y1][i] != ' ') {
+                    if (i == x2 && action == 'x')
+                        move_figure;
+                    if (i != x1) {
+                        ok = 1;
+                        break;
+                    }
+                }
+            }
+            if (ok == 0)
+                if (action == '-')
+                    move_figure;
+                    
+        }
+        if (x1 == x2) {
+            for (int i = min(y1, y2); i <= max(y1, y2); i++) {
+                if (board[i][x1] != ' ') {
+                    if (i == y2 && action == 'x')
+                        move_figure;
+                    if (i != y1) {
+                        ok = 1;
+                        break;
+                    }
+                }
+            }
+            if (ok == 0)
+                if (action == '-')
+                    move_figure;
+        }
+    }
+    print(*board);
+}
+void move_knight(board_info)
+{
+    if (turn(x1, y1, board) != turn(x2, y2, board))
     {
-        take_figure_move(x1, y1, x2, y2, board);
+        if((abs(x1-x2)==1 && abs(y1-y2)==2) || (abs(x1-x2)==2 && abs(y1-y2)==1))
+        {
+            if(board[y2][x2]==' ' && action=='-')
+                move_figure;
+            if(board[y2][x2]!=' ' && action=='x')
+                move_figure;
+        }
     }
     print(*board);
 }
@@ -123,26 +163,35 @@ void ok(char** s, int count, char board[board_size][board_size])
                 if (j > 0)
                     figure = s[i][j - 1];
                 else
-                    figure = ' ';
+                    figure = 'p';
                 m.fmx = char_to_int(s[i][j]);
                 m.fmy = 8 - (s[i][j + 1] - '0');
                 m.act = s[i][j + 2];
                 m.smx = char_to_int(s[i][j + 3]);
                 m.smy = 8 - (s[i][j + 4] - '0');
-                // printf("j=%d\t i=%d\ny: %d x: %d - y: %d x:
-                // %d\nfigure=/%c/\n", j, i, m.fmy, m.fmx, m.smy, m.smx,
-                // figure); printf("%c - %c\n", board[m.fmy][m.fmx],
-                // board[m.smy][m.smx]);
-                if (figure == ' ')
-                    move_pawn(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
-                if(figure=='K'&& figure==board[m.fmy][m.fmx])
-                    move_king(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
+                if (figure == (board[m.fmy][m.fmx])
+                    || (figure == 'p' && tolower(board[m.fmy][m.fmx]) == 'p')) {
+                    switch(tolower(figure))
+                    {
+                        case 'k':
+                            move_king(info);
+                            break;
+                        case 'p':
+                            move_pawn(info);
+                            break;
+                        case 'r':
+                            move_rook(info);
+                            break;
+                        case 'n':
+                            move_knight(info);
+                            break;
+                    }
+                }
                 j = j + 3;
             }
             j++;
         }
         printf("\n");
-        // check = 0;
         j = 0;
     }
 }
