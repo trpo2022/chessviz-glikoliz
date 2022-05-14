@@ -6,7 +6,7 @@
 char** board_read(int argc, char** argv, int count)
 {
     int size = 0;
-    int j = 0;
+    // int j = 0;
     char** s = (char**)malloc(sizeof(char*));
     if (argc == 1) { // read from stdin
         printf("%d. ", count);

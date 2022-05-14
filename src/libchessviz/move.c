@@ -90,9 +90,32 @@ void move_pawn(
         }
     print(*board);
 }
+void move_king(
+        int x1,
+        int y1,
+        int x2,
+        int y2,
+        char board[board_size][board_size],
+        char action)
+{
+    char turn1 = turn(x1, y1, board);
+    char turn2 = turn(x2, y2, board);
+    if(action=='-' && board[y2][x2]==' ')
+    {
+        if(abs(x1-x2)<=1 && abs(y1-y2)<=1)
+        {
+            quiet_move(x1, y1, x2, y2, board);
+        }
+    }
+    if(action=='x' && board[y2][x2]!=' ' && turn1!=turn2)
+    {
+        take_figure_move(x1, y1, x2, y2, board);
+    }
+    print(*board);
+}
 void ok(char** s, int count, char board[board_size][board_size])
 {
-    int j = 0, check = 0;
+    int j = 0;
     char figure;
     for (int i = 0; i < count; i++) {
         while (s[i][j] != '\n') {
@@ -112,12 +135,14 @@ void ok(char** s, int count, char board[board_size][board_size])
                 // board[m.smy][m.smx]);
                 if (figure == ' ')
                     move_pawn(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
+                if(figure=='K'&& figure==board[m.fmy][m.fmx])
+                    move_king(m.fmx, m.fmy, m.smx, m.smy, board, m.act);
                 j = j + 3;
             }
             j++;
         }
         printf("\n");
-        check = 0;
+        // check = 0;
         j = 0;
     }
 }
