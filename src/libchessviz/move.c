@@ -9,8 +9,8 @@
             char action
 #define min(x1, x2) ((x1 < x2) ? x1 : x2)
 #define max(x1, x2) ((x1 > x2) ? x1 : x2)
-#define move_input x1,y1,x2,y2,board
-#define move_figure move_figures(x1,y1,x2,y2,board)
+#define move_input x1, y1, x2, y2, board
+#define move_figure move_figures(x1, y1, x2, y2, board)
 int char_to_int(char letter)
 {
     switch (letter) {
@@ -88,23 +88,23 @@ void move_pawn(board_info)
 }
 void move_king(board_info)
 {
-    if (turn(x1, y1, board) != turn(x2, y2, board))
-    {
-    if (action == '-' && board[y2][x2] == ' ') {
-        if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {
+    if (turn(x1, y1, board) != turn(x2, y2, board)) {
+        if (action == '-' && board[y2][x2] == ' ') {
+            if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {
+                move_figure;
+            }
+        }
+        if (action == 'x' && board[y2][x2] != ' ') {
             move_figure;
         }
-    }
-    if (action == 'x' && board[y2][x2] != ' ') {
-        move_figure;
-    }
     }
     print(*board);
 }
 void move_rook(board_info)
 {
     int ok = 0;
-    if (turn(x1, y1, board) != turn(x2, y2, board)) { //проверяет не ест ли своего
+    if (turn(x1, y1, board)
+        != turn(x2, y2, board)) { //проверяет не ест ли своего
         if (y1 == y2) {
             for (int i = min(x1, x2); i <= max(x1, x2); i++) {
                 if (board[y1][i] != ' ') {
@@ -119,7 +119,6 @@ void move_rook(board_info)
             if (ok == 0)
                 if (action == '-')
                     move_figure;
-                    
         }
         if (x1 == x2) {
             for (int i = min(y1, y2); i <= max(y1, y2); i++) {
@@ -141,16 +140,124 @@ void move_rook(board_info)
 }
 void move_knight(board_info)
 {
-    if (turn(x1, y1, board) != turn(x2, y2, board))
-    {
-        if((abs(x1-x2)==1 && abs(y1-y2)==2) || (abs(x1-x2)==2 && abs(y1-y2)==1))
-        {
-            if(board[y2][x2]==' ' && action=='-')
+    if (turn(x1, y1, board) != turn(x2, y2, board)) {
+        if ((abs(x1 - x2) == 1 && abs(y1 - y2) == 2)
+            || (abs(x1 - x2) == 2 && abs(y1 - y2) == 1)) {
+            if (board[y2][x2] == ' ' && action == '-')
                 move_figure;
-            if(board[y2][x2]!=' ' && action=='x')
+            if (board[y2][x2] != ' ' && action == 'x')
                 move_figure;
         }
     }
+    print(*board);
+}
+void move_bishop(board_info)
+{
+    int yy = 0;
+    int ok = 0;
+    if (abs(x1 - x2) == abs(y1 - y2)) {
+        yy = y1;
+        if (x1 < x2) {
+            if (y1 > y2) {
+                for (int i = x1; i <= x2; i++) {
+                    if (board[yy][i] != ' ') {
+                        if(i==x2 && action=='x')
+                            move_figure;
+                        if(i!=x1)
+                        {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy--;
+                }
+            } else {
+                for (int i = x1; i <= x2; i++) {
+                    if (board[yy][i] != ' ') {
+                        if(i==x2 && action=='x')
+                            move_figure;
+                        if(i!=x1)
+                        {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy++;
+                }
+            }
+        } else {
+            if (y1 > y2) {
+                for (int i = x1; i <= x2; i--) {
+                    if (board[yy][i] != ' ') {
+                        if(i==x2 && action=='x')
+                            move_figure;
+                        if(i!=x1)
+                        {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy--;
+                }
+            } else {
+                for (int i = x1; i <= x2; i--) {
+                    if (board[yy][i] != ' ') {
+                        if(i==x2 && action=='x')
+                            move_figure;
+                        if(i!=x1)
+                        {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy++;
+                }
+            }
+        }
+        // yy=y1;
+        // if(y1>y2)
+        // {
+        //     for(int i=(max(x1,x2));i>=(min(x1,x2));i--)
+        //     {
+        //         printf("yy=%d ; i=%d ; board[yy][i]=%c\n", yy, i,
+        //         board[yy][i]); if(board[yy][i]!=' ')
+        //         {
+        //             if(i!=x1)
+        //             {
+        //                 ok=1;
+        //                 break;
+        //             }
+        //             if(i==x2 && action=='x')
+        //                 move_figure;
+        //         }
+        //         yy--;
+        //     }
+        // }
+        // else
+        // {
+        //     for(int i=(min(x1,x2));i<=(max(x1,x2));i++)
+        //     {
+        //         printf("yy=%d ; i=%d ; board[yy][i]=%c\n", yy, i,
+        //         board[yy][i]); if(board[yy][i]!=' ')
+        //         {
+        //             if(i!=x1)
+        //             {
+        //                 ok=1;
+        //                 break;
+        //             }
+        //             if(i==x2 && action=='x')
+        //                 move_figure;
+        //         }
+        //         yy--;
+        //     }
+        //     printf("%d %d", min(x1,x2), (max(x1,x2)));
+        // }
+        if (ok == 0) {
+            move_figure;
+        }
+    }
+    // printf("%c %c ", turn(x1, y1, board), turn(x2, y2, board));
+
     print(*board);
 }
 void ok(char** s, int count, char board[board_size][board_size])
@@ -160,6 +267,10 @@ void ok(char** s, int count, char board[board_size][board_size])
     for (int i = 0; i < count; i++) {
         while (s[i][j] != '\n') {
             if (char_to_int(s[i][j]) != -1) {
+                if (j == 0 && s[i][j] == 'b')
+                    if (char_to_int(s[i][j + 1]) != -1)
+                        j++;
+                printf("%d %d %c", i, j, s[i][j]);
                 if (j > 0)
                     figure = s[i][j - 1];
                 else
@@ -171,23 +282,25 @@ void ok(char** s, int count, char board[board_size][board_size])
                 m.smy = 8 - (s[i][j + 4] - '0');
                 if (figure == (board[m.fmy][m.fmx])
                     || (figure == 'p' && tolower(board[m.fmy][m.fmx]) == 'p')) {
-                    switch(tolower(figure))
-                    {
-                        case 'k':
-                            move_king(info);
-                            break;
-                        case 'p':
-                            move_pawn(info);
-                            break;
-                        case 'r':
-                            move_rook(info);
-                            break;
-                        case 'n':
-                            move_knight(info);
-                            break;
+                    switch (tolower(figure)) {
+                    case 'k':
+                        move_king(info);
+                        break;
+                    case 'p':
+                        move_pawn(info);
+                        break;
+                    case 'r':
+                        move_rook(info);
+                        break;
+                    case 'n':
+                        move_knight(info);
+                        break;
+                    case 'b':
+                        move_bishop(info);
+                        break;
                     }
                 }
-                j = j + 3;
+                j += 3;
             }
             j++;
         }
