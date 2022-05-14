@@ -149,6 +149,7 @@ void move_knight(board_info)
                 move_figure;
         }
     }
+    
     print(*board);
 }
 void move_bishop(board_info)
