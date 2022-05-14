@@ -211,50 +211,108 @@ void move_bishop(board_info)
                 }
             }
         }
-        // yy=y1;
-        // if(y1>y2)
-        // {
-        //     for(int i=(max(x1,x2));i>=(min(x1,x2));i--)
-        //     {
-        //         printf("yy=%d ; i=%d ; board[yy][i]=%c\n", yy, i,
-        //         board[yy][i]); if(board[yy][i]!=' ')
-        //         {
-        //             if(i!=x1)
-        //             {
-        //                 ok=1;
-        //                 break;
-        //             }
-        //             if(i==x2 && action=='x')
-        //                 move_figure;
-        //         }
-        //         yy--;
-        //     }
-        // }
-        // else
-        // {
-        //     for(int i=(min(x1,x2));i<=(max(x1,x2));i++)
-        //     {
-        //         printf("yy=%d ; i=%d ; board[yy][i]=%c\n", yy, i,
-        //         board[yy][i]); if(board[yy][i]!=' ')
-        //         {
-        //             if(i!=x1)
-        //             {
-        //                 ok=1;
-        //                 break;
-        //             }
-        //             if(i==x2 && action=='x')
-        //                 move_figure;
-        //         }
-        //         yy--;
-        //     }
-        //     printf("%d %d", min(x1,x2), (max(x1,x2)));
-        // }
         if (ok == 0) {
             move_figure;
         }
     }
-    // printf("%c %c ", turn(x1, y1, board), turn(x2, y2, board));
-
+    print(*board);
+}
+void move_queen(board_info)
+{
+ int yy = 0;
+    int ok = 0;
+    if (abs(x1 - x2) == abs(y1 - y2)) {
+        yy = y1;
+        if (x1 < x2) {
+            if (y1 > y2) {
+                for (int i = x1; i <= x2; i++) {
+                    if (board[yy][i] != ' ') {
+                        if (i == x2 && action == 'x')
+                            move_figure;
+                        if (i != x1) {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy--;
+                }
+            } else {
+                for (int i = x1; i <= x2; i++) {
+                    if (board[yy][i] != ' ') {
+                        if (i == x2 && action == 'x')
+                            move_figure;
+                        if (i != x1) {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy++;
+                }
+            }
+        } else {
+            if (y1 > y2) {
+                for (int i = x1; i <= x2; i--) {
+                    if (board[yy][i] != ' ') {
+                        if (i == x2 && action == 'x')
+                            move_figure;
+                        if (i != x1) {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy--;
+                }
+            } else {
+                for (int i = x1; i <= x2; i--) {
+                    if (board[yy][i] != ' ') {
+                        if (i == x2 && action == 'x')
+                            move_figure;
+                        if (i != x1) {
+                            ok = 1;
+                            break;
+                        }
+                    }
+                    yy++;
+                }
+            }
+        }
+        if (ok == 0) {
+            move_figure;
+        }
+    }
+    if (turn(x1, y1, board)
+        != turn(x2, y2, board)) { //проверяет не ест ли своего
+        if (y1 == y2) {
+            for (int i = min(x1, x2); i <= max(x1, x2); i++) {
+                if (board[y1][i] != ' ') {
+                    if (i == x2 && action == 'x')
+                        move_figure;
+                    if (i != x1) {
+                        ok = 1;
+                        break;
+                    }
+                }
+            }
+            if (ok == 0)
+                if (action == '-')
+                    move_figure;
+        }
+        if (x1 == x2) {
+            for (int i = min(y1, y2); i <= max(y1, y2); i++) {
+                if (board[i][x1] != ' ') {
+                    if (i == y2 && action == 'x')
+                        move_figure;
+                    if (i != y1) {
+                        ok = 1;
+                        break;
+                    }
+                }
+            }
+            if (ok == 0)
+                if (action == '-')
+                    move_figure;
+        }
+    }
     print(*board);
 }
 void ok(char** s, int count, char board[board_size][board_size])
@@ -294,6 +352,9 @@ void ok(char** s, int count, char board[board_size][board_size])
                         break;
                     case 'b':
                         move_bishop(info);
+                        break;
+                    case 'q':
+                        move_queen(info);
                         break;
                     }
                 }
